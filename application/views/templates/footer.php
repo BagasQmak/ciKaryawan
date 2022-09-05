@@ -42,9 +42,14 @@
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js"></script> -->
             <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
             <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+            <script src="<?= base_url('assets/'); ?>vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+            <script src="<?= base_url('assets/'); ?>vendor/bootstrap-toggle-master/js/bootstrap4-toggle.min.js"></script>
             <!-- Core plugin JavaScript-->
             <script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="<?= base_url('assets/'); ?>vendor/jonthornton-jquery-timepicker/jquery.timepicker.min.js"></script>
+            <script src="<?= base_url('assets'); ?>/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
+
+
 
             <!-- Custom scripts for all pages-->
             <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
@@ -109,7 +114,7 @@
                     $("#chart").toggle("d-none");
                 });
 
-
+                
 
                 function number_format(number, decimals, dec_point, thousands_sep) {
                     // *     example: number_format(1234.56, 2, ',', ' ');
@@ -232,7 +237,61 @@
                     }
                     });
                 
-              
+                    
+            </script>
+
+            <script>
+                <?php if ($dataapp['maps_use'] == TRUE) : ?>
+                    let maps_absen = "searching...";
+                    if (document.getElementById("maps-absen")) {
+                        window.onload = function() {
+                            var popup = L.popup();
+                            var geolocationMap = L.map("maps-absen", {
+                                center: [40.731701, -73.993411],
+                                zoom: 15,
+                            });
+
+                            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            }).addTo(geolocationMap);
+
+                            function geolocationErrorOccurred(geolocationSupported, popup, latLng) {
+                                popup.setLatLng(latLng);
+                                popup.setContent(
+                                    geolocationSupported ?
+                                    "<b>Error:</b> The Geolocation service failed." :
+                                    "<b>Error:</b> This browser doesn't support geolocation."
+                                );
+                                popup.openOn(geolocationMap);
+                            }
+
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(
+                                    function(position) {
+                                        var latLng = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude,
+                                        };
+
+                                        var marker = L.marker(latLng).addTo(geolocationMap);
+                                        maps_absen = position.coords.latitude + ", " + position.coords.longitude;
+                                        geolocationMap.setView(latLng);
+                                    },
+                                    function() {
+                                        geolocationErrorOccurred(true, popup, geolocationMap.getCenter());
+                                        maps_absen = 'No Location';
+                                    }
+                                );
+                            } else {
+                                //No browser support geolocation service
+                                geolocationErrorOccurred(false, popup, geolocationMap.getCenter());
+                                maps_absen = 'No Location';
+                            }
+                        };
+                    }
+                <?php elseif ($dataapp['maps_use'] == FALSE) : ?>
+                    maps_absen = 'No Location';
+                <?php endif; ?>
             </script>
 
             </body>

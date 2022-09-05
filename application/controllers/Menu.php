@@ -12,8 +12,8 @@ class Menu extends CI_Controller
     public function index()
     {
         $data['title'] = 'Menu Manajemen';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
 
         $data["menu"] = $this->menu_model->tampilData();
 
@@ -26,14 +26,13 @@ class Menu extends CI_Controller
     }
 
     public function tambah() {
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         $this->load->library('form_validation');
         $data['title'] = 'Tambah Menu';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
 
         $this->form_validation->set_rules('menu', 'Menu', 'required|xss_clean');
 
@@ -67,9 +66,8 @@ class Menu extends CI_Controller
 
         $menu = $this->menu_model;
 
-         if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+         if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', 'Data Gagal Diubah');
@@ -84,8 +82,8 @@ class Menu extends CI_Controller
         if (!$data["menu"]) show_404();
         
         $data['title'] = "Edit Menu";
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar');
@@ -96,9 +94,8 @@ class Menu extends CI_Controller
     public function hapus($id = null)
     {
 
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if (!isset($id)) show_404();
         
@@ -111,17 +108,80 @@ class Menu extends CI_Controller
     }
 
     public function subMenu() {
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
         $data['title'] = 'SubMenu Manajemen';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
-
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
+        $menu = $this->menu_model;
         $data["subMenu"] = $this->menu_model->tampilDataSubMenu();
+        $data["menu"] = $this->menu_model->tampilData();
+
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('title', 'Title', 'required|xss_clean');
+        $this->form_validation->set_rules('menu_id', 'Menu', 'required|xss_clean');
+        $this->form_validation->set_rules('url', 'Url', 'required|xss_clean');
+        $this->form_validation->set_rules('icon', 'Icon', 'required|xss_clean');
+
+        $this->form_validation->set_message('required', '%s Harus diisi');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', 'Data Gagal Ditambahkan');
+        } else {
+           $menu->simpanSubmenu();
+            $this->session->set_flashdata('success', 'Ditambahkan');
+            redirect('menu/submenu');
+        } 
+
+        
 
      
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('menu/submenu', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function tambahSubmenu() {
+         if( !$this->session->userdata('username')) {
+            redirect('auth');}
+        $data['title'] = 'Tambah Submenu';
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
+        $menu = $this->menu_model;
+
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('title', 'Title', 'required|xss_clean');
+        $this->form_validation->set_rules('menu_id', 'Menu', 'required|xss_clean');
+        $this->form_validation->set_rules('url', 'Url', 'required|xss_clean');
+        $this->form_validation->set_rules('icon', 'Icon', 'required|xss_clean');
+
+        $this->form_validation->set_message('required', '%s Harus diisi');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', 'Data Gagal Ditambahkan');
+        } else {
+           $menu->simpanSubmenu();
+            $this->session->set_flashdata('success', 'Ditambahkan');
+            redirect('menu/submenu');
+        } 
+
+
+
+
+        $data["subMenu"] = $this->menu_model->tampilDataSubMenu();
+        $data["menu"] = $this->menu_model->tampilData();
+
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('menu/tambahSubmenu', $data);
         $this->load->view('templates/footer');
     }
 }

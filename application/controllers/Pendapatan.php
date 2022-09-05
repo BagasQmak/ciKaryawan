@@ -9,15 +9,14 @@ class Pendapatan extends CI_Controller {
       }
 
     public function index() {
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
 
          $data["tabel_pendapatan"] = $this->pendapatan_model->tampilDataPendapatan();
         $data['title'] = 'Data Pendapatan';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -31,9 +30,8 @@ class Pendapatan extends CI_Controller {
     
 
     public function tambah() {
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
          
 
@@ -62,8 +60,8 @@ class Pendapatan extends CI_Controller {
         } 
 
         $data['title'] = "Tambah Data";
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar');
@@ -88,9 +86,8 @@ class Pendapatan extends CI_Controller {
         $pendapatan = $this->pendapatan_model;
         $validation = $this->form_validation;
 
-         if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+         if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if ($validation->run() == FALSE) {
             $this->session->set_flashdata('error', 'Data Gagal Diubah');
@@ -105,8 +102,8 @@ class Pendapatan extends CI_Controller {
         if (!$data["pendapatan"]) show_404();
         
         $data['title'] = "Edit Data";
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar');
@@ -117,9 +114,8 @@ class Pendapatan extends CI_Controller {
     public function hapus($no = null)
     {
 
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if (!isset($no)) show_404();
         

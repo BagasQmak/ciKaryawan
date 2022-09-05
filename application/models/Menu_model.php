@@ -2,6 +2,7 @@
 
 class Menu_model extends CI_Model {
         private $_table = "user_menu";
+        private $_tableSubmenu ="user_sub_menu";
     
         public $id;
         public $menu;
@@ -51,5 +52,27 @@ class Menu_model extends CI_Model {
         public function hapus($id)
         {
             return $this->db->delete($this->_table, array("id" => $id));
+        }
+
+
+        public function simpanSubmenu() {
+
+
+            $post = $this->input->post();
+            $this->title = $post["title"];
+            $this->menu_id = $post["menu_id"];
+            $this->url = $post["url"];
+            $this->icon = $post["icon"];
+            $this->is_active = $post["is_active"];
+            return $this->db->insert($this->_tableSubmenu, $this);
+            
+        }
+
+        public function updateSubmenu() {
+
+        }
+
+        public function hapusSubmenu() {
+
         }
 }

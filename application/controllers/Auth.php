@@ -12,11 +12,11 @@ class Auth extends CI_Controller
     }
     public function index()
     {
-        if( $this->session->userdata('email')) {
-            redirect('dashboard');
-         } 
+        // if( $this->session->userdata('username')) {
+        //     redirect('dashboard');
+        //  } 
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('username', 'username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Login Page';
@@ -29,16 +29,16 @@ class Auth extends CI_Controller
     }
     private function _login()
     {
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('user', ['email' => $email])->row_array();
+        $user = $this->db->get_where('tabel_user', ['username' => $username])->row_array();
         
         if($user) {
             if($user['is_active'] == 1) {
                 if(password_verify($password, $user['password'])) {
                     $data = [
-                        'email' => $user ['email'],
+                        'username' => $user ['username'],
                         'role_id' => $user ['role_id'],
                     ];
                     $this->session->set_userdata($data);
@@ -56,7 +56,7 @@ class Auth extends CI_Controller
                 redirect('auth');
             }
         } else {
-            $this->session->set_flashdata('msg_error', 'Email tidak terdaftar!');
+            $this->session->set_flashdata('msg_error', 'Username tidak terdaftar');
             redirect('auth');
         }
     }
@@ -89,7 +89,7 @@ class Auth extends CI_Controller
                 'is_active' => 1,
                 'date_created' => time()
             ];
-            $this->db->insert('user', $data);
+            $this->db->insert('tabel_user', $data);
             $this->session->set_flashdata('msg_success', 'Selamat, Akun anda berhasil dibuat, Silahkan Login!');
             redirect('auth');
         }
@@ -99,7 +99,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('msg_success', 'Berhasil Logout');
         redirect('auth');

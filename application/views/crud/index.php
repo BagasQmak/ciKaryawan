@@ -28,6 +28,7 @@
                                 
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Nipeg</th>
                                             <th>Nama</th>
                                             <th>Tanggal Lahir</th>
@@ -38,8 +39,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php $i = 1; ?>
                                         <?php foreach($tabel_user as $user) : ?>
                                         <tr>
+                                            <td><?= $i; ?></td>
                                             <td><?= $user->nipeg; ?></td>
                                             <td><?= $user->nama; ?></td>
                                             <td><?= $user->tanggallahir; ?></td>
@@ -53,6 +56,7 @@
                                                  <a 
 											 href="<?= base_url('crud/hapus/'.$user->nipeg) ?>" class="btn btn-small text-danger tombol-hapus"><i class="fas fa-trash"></i> Hapus</a></td>
                                         </tr>
+                                        <?php $i++; ?>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>

@@ -12,9 +12,8 @@ class Dashboard extends CI_Controller {
 
 
     public function index() {
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
          $data["pendapatan"] = $this->pendapatan_model->tampilDataPendapatan();
          
@@ -22,8 +21,8 @@ class Dashboard extends CI_Controller {
          $data["tabel_user"] = $this->crud_model->tampilData();
         $data['title'] = 'Dashboard';
         $data['totalData'] = $this->dashboard_model->jumlahSemuaData();
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);

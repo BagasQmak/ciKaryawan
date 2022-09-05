@@ -13,8 +13,8 @@ class Crud extends CI_Controller {
         if( !$this->session->userdata('email')) {
            redirect('auth');
         } 
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -30,14 +30,45 @@ class Crud extends CI_Controller {
     {
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('nipeg', 'Nipeg', 'required|xss_clean|max_length[10]|integer|is_unique[tabel_user.nipeg]', ['integer' => "%s Hanya boleh diisi Angka"]);
+        $this->form_validation->set_rules('nipeg', 'Nipeg', 'xss_clean|max_length[10]|integer', ['integer' => "%s Hanya boleh diisi Angka"]);
 
         $this->form_validation->set_rules('nama', 'Nama', 'required|xss_clean|callback_alpha_dash_space');
-        $this->form_validation->set_rules('tanggallahir', 'Tanggal Lahir', 'required|xss_clean');
+        $this->form_validation->set_rules('tanggallahir', 'Tanggal Lahir', 'xss_clean');
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|xss_clean|callback_alpha_dash_space');
         $this->form_validation->set_rules('bagian', 'Bagian', 'required|xss_clean|callback_alpha_dash_space');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required|xss_clean|callback_alpha_dash_space');
+        $this->form_validation->set_rules ('username', 'Username', 'required|trim');
+        $this->form_validation->set_rules ('email', 'Email', 'trim|valid_email|is_unique[user.email]', [
+            'is_unique' => 'Email ini sudah terdaftar!'
+        ]);
+        $this->form_validation->set_rules ('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
+            'matches' => 'Password tidak sama!', 
+            'min_length' => 'Password terlalu pendek!'
+        ]);
+        $this->form_validation->set_rules ('password2', 'Password', 'required|trim|matches[password1]');
+        if ($this->input->post('image')) {
+            // $image = $this->input->post('image');
+           
 
+           $upload_image = $_FILES['image']['image'];
+           
+           if($upload_image) {
+               $config['allowed_types'] = 'gif|jpg|png';
+               $config['max_size'] = 20480;
+               $config['upload_path'] = './assets/img/profile';
+
+
+               $this->load->library('upload', $config);
+
+               if($this->upload->do_upload('image')) {
+                   $new_image = $this->upload->data('file_name');
+                   $this->db->set('image', $new_image);
+               }
+               
+            };
+        }
+
+        $this->form_validation->set_message('required', '%s Harus diisi!');
         $this->form_validation->set_message('is_unique', '%s Sudah ada (terpakai), Mohon ganti dengan yang lain');
         $this->form_validation->set_message('alpha_dash_space', '%s Hanya boleh diisi Huruf');
 
@@ -46,9 +77,10 @@ class Crud extends CI_Controller {
         // $validation->set_rules($crud->rules());
         // $validation->set_message($crud->errorMessage());
 
-        if( !$this->session->userdata('email')) {
+        if( !$this->session->userdata('username')) {
             redirect('auth');
-         } 
+        }
+         
 
         if ($validation->run() == FALSE) {
             $this->session->set_flashdata('error', 'Data Gagal Ditambahkan');
@@ -59,8 +91,8 @@ class Crud extends CI_Controller {
         } 
 
         $data['title'] = "Tambah Data";
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar');
@@ -91,9 +123,8 @@ class Crud extends CI_Controller {
         $validation = $this->form_validation;
         // $validation->set_rules($crud->rules());
 
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if ($validation->run() == FALSE) {
             $this->session->set_flashdata('error', 'Data Gagal Diubah');
@@ -107,8 +138,8 @@ class Crud extends CI_Controller {
         if (!$data["crud"]) show_404();
         
         $data['title'] = "Edit Data";
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar');
@@ -119,9 +150,8 @@ class Crud extends CI_Controller {
     public function hapus($nipeg = null)
     {
 
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
         if (!isset($nipeg)) show_404();
         

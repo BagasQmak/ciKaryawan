@@ -5,14 +5,13 @@ class User extends CI_Controller
 { 
     public function index()
     {
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
 
         $data['title'] = 'Profil Saya';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -26,20 +25,19 @@ class User extends CI_Controller
 
         // $this->form_validation->set_rules('nipeg', 'Nipeg', 'xss_clean|max_length[10]|integer', ['integer' => "%s Hanya boleh diisi Angka"]);
 
-        $this->form_validation->set_rules('name', 'Nama', 'required|xss_clean|trim');
+        $this->form_validation->set_rules('username', 'Username', 'required|xss_clean|trim');
 
         $this->form_validation->set_message('required', "%s Harus diisi!");
-        if( !$this->session->userdata('email')) {
-            redirect('auth');
-         } 
+        if( !$this->session->userdata('username')) {
+            redirect('auth');}
 
          $validation = $this->form_validation;
 
          if ($validation->run() == FALSE) {
             $this->session->set_flashdata('error', 'Data Gagal Diubah');
         } else {
-           $name = $this->input->post('name');
-           $email = $this->input->post('email');
+           $username = $this->input->post('username');
+          
 
            $upload_image = $_FILES['image']['name'];
            
@@ -57,17 +55,17 @@ class User extends CI_Controller
                }
            }
 
-           $this->db->set('name', $name);
-           $this->db->where('email', $email);
-           $this->db->update('user');
+           $this->db->set('username', $username);
+           $this->db->where('username', $username);
+           $this->db->update('tabel_user');
 
             $this->session->set_flashdata('success', 'Diubah');
             redirect('user');
         } 
 
         $data['title'] = 'Edit Profil';
-        $data['user'] = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
