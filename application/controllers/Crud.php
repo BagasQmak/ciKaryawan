@@ -10,7 +10,7 @@ class Crud extends CI_Controller {
     public function index() {
         $data["tabel_user"] = $this->crud_model->tampilData();
         $data['title'] = 'Data Pegawai';
-        if( !$this->session->userdata('email')) {
+        if( !$this->session->userdata('username')) {
            redirect('auth');
         } 
         $data['user'] = $this->db->get_where('tabel_user', ['username' => 
@@ -110,14 +110,15 @@ class Crud extends CI_Controller {
         // $this->form_validation->set_rules('nipeg', 'Nipeg', 'xss_clean|max_length[10]|integer', ['integer' => "%s Hanya boleh diisi Angka"]);
 
         $this->form_validation->set_rules('nama', 'Nama', 'required|xss_clean|callback_alpha_dash_space');
-        $this->form_validation->set_rules('tanggallahir', 'Tanggal Lahir', 'required|xss_clean');
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|xss_clean|callback_alpha_dash_space');
         $this->form_validation->set_rules('bagian', 'Bagian', 'required|xss_clean|callback_alpha_dash_space');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required|xss_clean|callback_alpha_dash_space');
+        $this->form_validation->set_rules('role_id', 'Role', 'required|xss_clean');
 
         // $this->form_validation->set_message('is_unique', '%s Sudah ada (terpakai), Mohon ganti dengan yang lain');
         $this->form_validation->set_message('alpha_dash_space', '%s Hanya boleh diisi Huruf');
         $this->form_validation->set_message('max_length', '%s Tidak boleh lebih dari 10 karakter');
+        $this->form_validation->set_message('role_id', '%s Harus Dipilih');
 
         $crud = $this->crud_model;
         $validation = $this->form_validation;

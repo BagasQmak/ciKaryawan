@@ -24,7 +24,7 @@
                             <?php endif; ?>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <a href="<?php echo base_url('crud/tambah') ?>" class="text-white"><button class="btn btn-info mb-3"><i class=" fas fa-plus"></i> Tambah Data</button></a>
+                                <a href="<?php echo base_url('crud/tambah') ?>" class="text-white"><button class="btn btn-info mb-3"><i class=" fas fa-plus"></i> Tambah Pegawai</button></a>
                                 
                                     <thead>
                                         <tr>

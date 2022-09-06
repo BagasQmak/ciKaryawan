@@ -1,6 +1,6 @@
 <div class="container">
 
-        <div class="card border-0 col-lg-6 shadow-lg mx-auto my-5">
+        <div class="card border-0 col-lg-8 shadow-lg mx-auto my-5">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
@@ -32,11 +32,7 @@
                                     <input type="text" class="form-control form-control-user" id="nama" name="nama" value="<?= $crud->nama ?>" required>
                                     <?= form_error('nama', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
-                                <div class="form-group">
-                                    <label for="tanggallahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control form-control-user" id="tanggallahir" name="tanggallahir" value="<?= $crud->tanggallahir ?>">
-                                     <?= form_error('tanggallahir', '<small class="text-danger pl-3">', '</small>'); ?>
-                                </div>
+                            
                                 <div class="form-group">
                                     <label for="jabatan">Jabatan</label>
                                     <input type="text" class="form-control form-control-user" id="jabatan" name="jabatan" value="<?= $crud->jabatan ?>" required>
@@ -51,6 +47,32 @@
                                     <label for="divisi">Divisi</label>
                                     <input type="text" class="form-control form-control-user" id="divisi" name="divisi" value="<?= $crud->divisi ?>" required>
                                     <?= form_error('divisi', '<small class="text-danger pl-3">', '</small>'); ?>
+                                </div>
+                                 <div class="form-group">
+                                  
+                                    <input type="hidden" class="form-control form-control-user" name="username" value="<?= $crud->username ?>" required>
+                                    
+                                </div>
+                                <div class="form-group">
+                                  
+                                    <input type="hidden" class="form-control form-control-user" name="password" value="<?= $crud->password ?>" required>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label for="role_id">Role</label>
+                                    <select name="role_id" id="role_id" class="custom-select">
+                                            <?php if($crud->role_id == 1) : ?>
+                                                <option value="1" selected>Administrator</option>
+                                                <option value="2">Karyawan</option>
+                                            <?php endif; ?>
+                
+                                            <?php if($crud->role_id == 2) : ?>
+                                                <option value="2" selected>Karyawan</option>
+                                                <option value="1">Administrator</option>
+                                            <?php endif; ?>
+                                         
+                                        </select>
+                                    <?= form_error('role_id', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
 
                                 <hr>

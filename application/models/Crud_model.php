@@ -17,7 +17,7 @@ class Crud_model extends CI_Model {
         public function tampilData()
         {
             $this->db->from($this->_table);
-            $this->db->order_by('nama', "desc");
+            $this->db->order_by('id', "desc");
             $query = $this->db->get();
             return $query->result();
         }
@@ -35,7 +35,7 @@ class Crud_model extends CI_Model {
         {
            
             $post = $this->input->post();
-            $this->nipeg = rand($post["nipeg"] % 11);
+            $this->nipeg = random_string('numeric', 13);
             $this->nama = $post["nama"];
             $this->tanggallahir = $post["tanggallahir"];
             $this->jabatan = $post["jabatan"];
@@ -57,10 +57,12 @@ class Crud_model extends CI_Model {
             $post = $this->input->post();
             $this->nipeg = $post["nipeg"];
             $this->nama = $post["nama"];
-            $this->tanggallahir = $post["tanggallahir"];
             $this->jabatan = $post["jabatan"];
             $this->bagian = $post["bagian"];
             $this->divisi = $post["divisi"];
+            $this->username = $post["username"];
+            $this->password =$post["password"];
+            $this->role_id = $post["role_id"];
             return $this->db->update($this->_table, $this, array('nipeg' => $post['nipeg']));
         }
     

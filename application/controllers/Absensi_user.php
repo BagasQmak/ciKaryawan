@@ -6,8 +6,8 @@ class Absensi_user extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->get_datasess = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+		$this->get_datasess = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
 		$this->load->model('front_model');
 		$this->get_datasetupapp = $this->front_model->fetchsetupapp();
 		$timezone_all = $this->get_datasetupapp;

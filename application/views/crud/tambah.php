@@ -59,12 +59,12 @@
                                 </div>
                                  <div class="form-group">
                                     <label for="password1">Password</label>
-                                    <input type="text" class="form-control form-control-user" id="password1" name="password1" value="<?= set_value('password1'); ?>" required>
+                                    <input type="password" class="form-control form-control-user" id="password1" name="password1" value="<?= set_value('password1'); ?>" required>
                                     <?= form_error('password1', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="password2">Ulangi Password</label>
-                                    <input type="text" class="form-control form-control-user" id="password2" name="password2" value="<?= set_value('password2'); ?>" required>
+                                    <input type="password" class="form-control form-control-user" id="password2" name="password2" value="<?= set_value('password2'); ?>" required>
                                     <?= form_error('password2', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                  <div class="form-group">
@@ -92,8 +92,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role_id">Role</label>
-                                    <input type="text" class="form-control form-control-user" id="role_id" name="role_id" value="<?= set_value('role_id'); ?>" required>
-                                    <?= form_error('role_id', '<small class="text-danger pl-3">', '</small>'); ?>
+                                    <select name="role_id" id="role_id" class="form-control">
+                                            <option value="">--Pilih Role--</option>
+                                            <option value="1">Administrator</option>
+                                            <option value="2">Karyawan</option>
+                                        </select>
+                                        <?= form_error('role_id', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <!-- <label for="is_active">is_active</label> -->

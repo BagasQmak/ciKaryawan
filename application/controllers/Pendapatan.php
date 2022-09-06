@@ -64,7 +64,7 @@ class Pendapatan extends CI_Controller {
         $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar');
+        $this->load->view('templates/topbar', $data);
         $this->load->view('pendapatan/tambah', $data);
         $this->load->view('templates/footer');
         
@@ -106,7 +106,7 @@ class Pendapatan extends CI_Controller {
         $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar');
+        $this->load->view('templates/topbar', $data);
         $this->load->view("pendapatan/edit", $data);
         $this->load->view('templates/footer');
     }
