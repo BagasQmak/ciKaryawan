@@ -10,8 +10,8 @@ class Front_model extends CI_Model
         $bulan = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
         $hari = array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu");
         $this->get_today_date = $hari[(int)date("w")] . ', ' . date("j ") . $bulan[(int)date('m')] . date(" Y");
-        $this->get_datasess = $this->db->get_where('user', ['email' => 
-        $this->session->userdata('email')])->row_array();
+        $this->get_datasess = $this->db->get_where('tabel_user', ['username' => 
+        $this->session->userdata('username')])->row_array();
         $this->appsetting = $this->db->get_where('db_setting', ['status_setting' => 1])->row_array();
     }
 
@@ -22,13 +22,13 @@ class Front_model extends CI_Model
 
     public function fetchdashboard()
     {
-        return $this->db->get_where('user')->row_array();
+        return $this->db->get_where('tabel_user')->row_array();
     }
 
-    public function fetchdbabsen($id_pegawai)
+    public function fetchdbabsen($nipeg)
     {
         $today = $this->get_today_date;
-        return $this->db->get_where('db_absensi', ['id_pegawai' => $id_pegawai, 'tgl_absen' => $today])->row_array();
+        return $this->db->get_where('db_absensi', ['nipeg' => $nipeg, 'tgl_absen' => $today])->row_array();
     }
 
     public function crudabs($typesend)
@@ -46,16 +46,16 @@ class Front_model extends CI_Model
         $today = $this->get_today_date;
         $clocknow = date("H:i:s");
         if (strtotime($clocknow) >= strtotime($appsettings['absen_mulai']) && strtotime($clocknow) <= strtotime($appsettings['absen_mulai_to'])) {
-            if ($this->db->get_where('db_absensi', ['tgl_absen' => $today, 'id_pegawai' => $this->get_datasess['id_pegawai']])->row_array()) {
+            if ($this->db->get_where('db_absensi', ['tgl_absen' => $today, 'nipeg' => $this->get_datasess['nipeg']])->row_array()) {
                 $data = [
                     'jam_masuk' => $clocknow
                 ];
-                $this->db->where('tgl_absen', $today)->where('id_pegawai', $this->get_datasess['id_pegawai']);
+                $this->db->where('tgl_absen', $today)->where('nipeg', $this->get_datasess['nipeg']);
                 $this->db->update('db_absensi', $data);
             } else {
                 $data = [
-                    'nama_pegawai' => $this->get_datasess['nama_lengkap'],
-                    'id_pegawai' => $this->get_datasess['id_pegawai'],
+                    'nama' => $this->get_datasess['nama'],
+                    'nipeg' => $this->get_datasess['nipeg'],
                     'jam_masuk' => $clocknow,
                     'kode_absen' => 'absen_' . date('Ym') . mt_rand(11111, 99999),
                     'tgl_absen' => $today,
@@ -66,16 +66,16 @@ class Front_model extends CI_Model
                 $this->db->insert('db_absensi', $data);
             }
         } elseif (strtotime($clocknow) > strtotime($appsettings['absen_mulai_to']) && strtotime($clocknow) >= strtotime($appsettings['absen_pulang'])) {
-            if ($this->db->get_where('db_absensi', ['tgl_absen' => $today, 'id_pegawai' => $this->get_datasess['id_pegawai']])->row_array()) {
+            if ($this->db->get_where('db_absensi', ['tgl_absen' => $today, 'nipeg' => $this->get_datasess['nipeg']])->row_array()) {
                 $data = [
                     'jam_pulang' => $clocknow
                 ];
-                $this->db->where('tgl_absen', $today)->where('id_pegawai', $this->get_datasess['id_pegawai']);
+                $this->db->where('tgl_absen', $today)->where('nipeg', $this->get_datasess['nipeg']);
                 $this->db->update('db_absensi', $data);
             } else {
                 $data = [
-                    'nama_pegawai' => $this->get_datasess['nama_lengkap'],
-                    'id_pegawai' => $this->get_datasess['id_pegawai'],
+                    'nama' => $this->get_datasess['nama'],
+                    'nipeg' => $this->get_datasess['nipeg'],
                     'jam_masuk' => $clocknow,
                     'kode_absen' => 'absen_' . date('Ym') . mt_rand(11111, 99999),
                     'tgl_absen' => $today,
@@ -87,8 +87,8 @@ class Front_model extends CI_Model
             }
         } elseif (strtotime($clocknow) > strtotime($appsettings['absen_mulai_to']) && strtotime($clocknow) <= strtotime($appsettings['absen_pulang'])) {
             $data = [
-                'nama_pegawai' => $this->get_datasess['nama_lengkap'],
-                'id_pegawai' => $this->get_datasess['id_pegawai'],
+                'nama' => $this->get_datasess['nama'],
+                'nipeg' => $this->get_datasess['nipeg'],
                 'jam_masuk' => $clocknow,
                 'kode_absen' => 'absen_' . date('Ym') . mt_rand(11111, 99999),
                 'tgl_absen' => $today,
