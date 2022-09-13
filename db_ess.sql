@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2022 at 03:26 PM
+-- Generation Time: Sep 13, 2022 at 06:14 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -49,8 +49,9 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 CREATE TABLE `db_absensi` (
   `id_absen` bigint(20) NOT NULL,
   `kode_absen` varchar(100) NOT NULL,
-  `nama_pegawai` varchar(125) NOT NULL,
-  `id_pegawai` varchar(125) NOT NULL,
+  `nama` varchar(125) NOT NULL,
+  `shift` int(1) NOT NULL,
+  `nipeg` varchar(20) NOT NULL,
   `tgl_absen` varchar(125) NOT NULL,
   `jam_masuk` varchar(13) NOT NULL,
   `jam_pulang` varchar(13) NOT NULL,
@@ -63,9 +64,20 @@ CREATE TABLE `db_absensi` (
 -- Dumping data for table `db_absensi`
 --
 
-INSERT INTO `db_absensi` (`id_absen`, `kode_absen`, `nama_pegawai`, `id_pegawai`, `tgl_absen`, `jam_masuk`, `jam_pulang`, `status_pegawai`, `keterangan_absen`, `maps_absen`) VALUES
-(1, 'absen_20220897549', 'Budi', '640619835538220', 'Rabu, 31 Agustus 2022', '10:38:15', '', 1, 'Bekerja Di Kantor', '-6.938106053699836, 107.60656109697985'),
-(2, 'absen_20220914941', 'Budi', '640619835538220', 'Kamis, 1 September 2022', '08:33:21', '', 1, 'Bekerja Di Kantor', 'No Location');
+INSERT INTO `db_absensi` (`id_absen`, `kode_absen`, `nama`, `shift`, `nipeg`, `tgl_absen`, `jam_masuk`, `jam_pulang`, `status_pegawai`, `keterangan_absen`, `maps_absen`) VALUES
+(4, 'absen_20220941013', 'Qmak', 0, '9725310361540', 'Jumat, 9 September 2022', '21:42:57', '00:00:00', 0, '1', '-6.93029, 107.64217775'),
+(5, 'absen_20220971447', 'wati', 0, '8144931236752', 'Jumat, 9 September 2022', '22:06:35', '00:00:00', 0, '2', '-6.930249177264876, 107.64218344163133'),
+(6, 'absen_20220961246', 'Qmak', 0, '9725310361540', 'Sabtu, 10 September 2022', '17:41:45', '00:00:00', 0, '4', '-6.930244020758202, 107.64217446367314'),
+(7, 'absen_20220970023', 'wati', 0, '8144931236752', 'Sabtu, 10 September 2022', '17:45:00', '00:00:00', 0, '3', '-6.930249177264876, 107.64218344163133'),
+(8, 'absen_20220987816', 'Qmak', 0, '9725310361540', 'Senin, 12 September 2022', '09:01:02', '00:00:00', 0, '1', '-6.938159473181485, 107.606603519471'),
+(10, 'absen_20220917856', 'Qmak', 0, '9725310361540', 'Senin, 12 September 2022', '10:36:53', '00:00:00', 0, '1', '-6.938132641440118, 107.606603519471'),
+(12, 'absen_20220993766', 'Qmak', 0, '9725310361540', 'Senin, 12 September 2022', '10:50:21', '00:00:00', 0, '1', '-6.938151, 107.60657598923343'),
+(13, 'absen_20220912372', 'Qmak', 0, '9725310361540', 'Senin, 12 September 2022', '11:03:48', '00:00:00', 2, '1', '-6.93822196289493, 107.6066197597355'),
+(14, 'absen_20220945951', 'Qmak', 0, '9725310361540', 'Senin, 12 September 2022', '11:12:46', '00:00:00', 2, '1', '-6.938142526818517, 107.60656609625276'),
+(15, 'absen_20220988783', 'Qmak', 1, '9725310361540', 'Senin, 12 September 2022', '11:22:50', '00:00:00', 2, '1', '-6.938151, 107.60663599999998'),
+(16, 'absen_20220930380', 'Qmak', 1, '9725310361540', 'Selasa, 13 September 2022', '08:55:47', '00:00:00', 1, '1', '-6.938117029699257, 107.60657862587148'),
+(17, 'absen_20220926477', 'wati', 1, '8144931236752', 'Selasa, 13 September 2022', '08:57:10', '00:00:00', 1, '3', '-6.938113410815635, 107.60658548236319'),
+(18, 'absen_20220991401', 'Qmak', 2, '9725310361540', 'Selasa, 13 September 2022', '08:59:20', '00:00:00', 1, '2', '-6.9381544139696745, 107.60658252144646');
 
 -- --------------------------------------------------------
 
@@ -155,8 +167,10 @@ INSERT INTO `tabel_user` (`id`, `nipeg`, `nama`, `tanggallahir`, `jabatan`, `bag
 (6, '1423', 'Johannes', '2004-01-04', 'Direktur', 'Development', 'IT', '', '', '', '', 0, 0, 0),
 (7, '200', 'Careline', '2000-02-14', 'Karyawati', 'Marketing', 'Human Resource', '', '', '', '', 0, 0, 0),
 (12, '4539372896241', 'Sentosa Jaya', '0000-00-00', 'Karyawan', 'IT', 'IT', '', '', '', 'default.jpg', 2, 1, 1662433739),
-(13, '9725310361540', 'Qmak', '0000-00-00', 'CCO', 'IT', 'IT', 'qmakqmak', '$2y$10$VTN5mR5SxUWPRKbwKHoGMuzi5Q/EiIYTwoXT8HCZvi3XgprZnrGOW', '', 'default.jpg', 1, 1, 1662434517),
-(14, '2881506724139', 'Budi Saep', '0000-00-00', 'Karyawan', 'IT', 'IT', 'budiaja', '$2y$10$s2H.LxqInN1wkMpCgHY/8uK1eMmjRzVNRe98HNJM09kcA58OtthoS', '', 'default.png', 2, 1, 1662437238);
+(13, '9725310361540', 'Qmak', '2003-10-12', 'CCO', 'IT', 'IT', 'qmak', '$2y$10$s2H.LxqInN1wkMpCgHY/8uK1eMmjRzVNRe98HNJM09kcA58OtthoS', 'qmaktampan@gmail.com', 'QmakLogo.png', 1, 1, 1662434517),
+(14, '2881506724139', 'Budi Saep', '0000-00-00', 'Karyawan', 'IT', 'IT', 'budiaja', '$2y$10$s2H.LxqInN1wkMpCgHY/8uK1eMmjRzVNRe98HNJM09kcA58OtthoS', '', 'default.png', 1, 1, 1662437238),
+(15, '8144931236752', 'wati', '2004-04-07', 'karyawati', 'IT', 'IT', 'wati', '$2y$10$NaKRI9A2L1PVVOuVMlzfSenw/ecaT5Bj0LKOZxhX.bb6d9IiZCHkq', 'watisusilawati@gmail.com', 'default1.png', 2, 1, 1662476045),
+(16, '4915002358432', 'budi', '0000-00-00', 'CTO', 'IT', 'IT', 'budibudi', '$2y$10$U55jW11OcXhHdlx/g7SxLeg0aBOLSHWd3Gy6fi0n1lkGBRXcnWAee', '', 'default.jpg', 2, 1, 1662714370);
 
 -- --------------------------------------------------------
 
@@ -262,8 +276,8 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (6, 1, 'Data Pendapatan', 'pendapatan', 'fas fa-fw fa-dollar-sign', 1),
 (7, 5, 'Menu Manajemen', 'menu', 'fas fa-fw fa-folder', 1),
 (8, 5, 'SubMenu Manajemen', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
-(9, 1, 'Data Absensi', 'absensi_admin', 'fas fa-fw fa-clock', 1),
-(10, 2, 'Menu Absensi', 'absensi_user', 'fas fa-fw fa-table', 1);
+(9, 1, 'Data Absensi', 'admin/rekapAbsen', 'fas fa-fw fa-clock', 1),
+(10, 2, 'Menu Absensi', 'user/absen', 'fas fa-fw fa-table', 1);
 
 --
 -- Indexes for dumped tables
@@ -337,7 +351,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `db_absensi`
 --
 ALTER TABLE `db_absensi`
-  MODIFY `id_absen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_absen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tabel_pendapatan`
@@ -349,7 +363,7 @@ ALTER TABLE `tabel_pendapatan`
 -- AUTO_INCREMENT for table `tabel_user`
 --
 ALTER TABLE `tabel_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user`
